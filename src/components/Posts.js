@@ -20,7 +20,7 @@ class Posts extends Component {
 
     // Initial state
     this.state = {
-      posts: null
+      posts: []
     };
 
     // Fetch the data
@@ -44,14 +44,17 @@ class Posts extends Component {
           };
         });
       })
-      .then(res => console.log(res))
       // Save posts into state
       .then(posts => this.setState({ posts: posts }));
   }
 
   render() {
-    return <div>Hello</div>;
+    return <ul>{this.state.posts.map(header => <li>{header.title}</li>)}</ul>;
   }
+}
+
+propTypes: {
+  posts: React.PropTypes.array.isRequired;
 }
 
 export default Posts;
