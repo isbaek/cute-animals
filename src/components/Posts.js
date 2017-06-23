@@ -1,22 +1,10 @@
 import React, { Component } from "react";
 
-function JsonDump(props) {
-  return (
-    <code>
-      <pre style={{ textAlign: "left" }}>
-        {JSON.stringify(props.data, null, 4)}
-      </pre>
-    </code>
-  );
-}
-
-function test(props) {
-  return <div>{props.data}</div>;
-}
+import Imagebox from "./Imagebox";
 
 class Posts extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     // Initial state
     this.state = {
@@ -36,6 +24,7 @@ class Posts extends Component {
       .then(payload => {
         return payload.data.children.map(child => child.data).map(post => {
           return {
+            id: post.id,
             title: post.title,
             thumbnail: post.thumbnail,
             url: post.url,
@@ -49,7 +38,13 @@ class Posts extends Component {
   }
 
   render() {
-    return <ul>{this.state.posts.map(header => <li>{header.title}</li>)}</ul>;
+    return (
+      <div>
+        {this.state.posts.map(image => (
+          <Imagebox key={image.id} src={image.url} />
+        ))}
+      </div>
+    );
   }
 }
 
