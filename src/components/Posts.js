@@ -37,9 +37,18 @@ class Posts extends Component {
       .then(posts => this.setState({ posts: posts }));
   }
 
+  checkExt() {
+    var urls = this.state.posts.map(ext => <li>{ext.url}</li>);
+    var slices = urls.slice(0, -1);
+    return slices;
+  }
+
   render() {
     return (
       <div>
+        <ul>
+          {this.checkExt()}{" "}
+        </ul>
         {this.state.posts.map(image => (
           <Imagebox key={image.id} src={image.url} />
         ))}
