@@ -38,18 +38,28 @@ class Posts extends Component {
   }
 
   checkExt() {
-    var urls = this.state.posts.map(ext => <li>{ext.url.slice(0, -1)}</li>);
+    var urls = this.state.posts.map(ext => <li>{ext.url}</li>);
     return urls;
   }
 
   render() {
     return (
       <div>
+        <div>
+          <video preload="auto" autoPlay="autoplay" loop="loop">
+            <source src="https://i.imgur.com/91S22q6.webm" type="video/webm" />
+          </video>
+        </div>
         <ul>
           {this.checkExt()}{" "}
         </ul>
         {this.state.posts.map(image => (
-          <Imagebox key={image.id} src={image.url} />
+          <Imagebox
+            width="500px"
+            height="900px"
+            key={image.id}
+            src={image.url}
+          />
         ))}
       </div>
     );
