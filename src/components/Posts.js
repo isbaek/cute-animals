@@ -38,9 +38,8 @@ class Posts extends Component {
   }
 
   checkExt() {
-    var urls = this.state.posts.map(ext => <li>{ext.url}</li>);
-    var slices = urls.slice(0, -1);
-    return slices;
+    var urls = this.state.posts.map(ext => <li>{ext.url.slice(0, -1)}</li>);
+    return urls;
   }
 
   render() {
