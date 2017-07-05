@@ -8,7 +8,8 @@ class Posts extends Component {
 
     // Initial state
     this.state = {
-      posts: []
+      posts: [],
+      urls: []
     };
 
     // Fetch the data
@@ -37,9 +38,14 @@ class Posts extends Component {
       .then(posts => this.setState({ posts: posts }));
   }
 
+  // check extension
+  // todo: isolate the extension part
   checkExt() {
     var urls = this.state.posts.map(ext => <li>{ext.url}</li>);
-    return urls;
+    var extensions = urls.map(e => (
+      <li>{e.split(".").pop().split(/\#|\?/)[0]}</li>
+    ));
+    return extensions;
   }
 
   render() {
@@ -47,7 +53,10 @@ class Posts extends Component {
       <div>
         <div>
           <video preload="auto" autoPlay="autoplay" loop="loop">
-            <source src="https://i.imgur.com/91S22q6.webm" type="video/webm" />
+            <source
+              src="https://fat.gfycat.com/AnxiousForcefulJackrabbit.webm"
+              type="video/webm"
+            />
           </video>
         </div>
         <ul>
