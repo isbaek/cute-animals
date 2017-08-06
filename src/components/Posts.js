@@ -9,11 +9,13 @@ class Posts extends Component {
     // Initial state
     this.state = {
       posts: [],
-      urls: []
+      activeIndex: 0
     };
 
     // Fetch the data
     this.fetchPosts();
+    this.handleNextImage = this.handleNextImage.bind(this);
+    this.handlePrevImage = this.handlePrevImage.bind(this);
   }
 
   fetchPosts() {
@@ -25,12 +27,12 @@ class Posts extends Component {
       .then(payload => {
         return payload.data.children.map(child => child.data).map(post => {
           return {
-            //id: post.id,
-            //title: post.title,
-            //thumbnail: post.thumbnail,
-            url: post.url
-            //numComments: post.num_comments,
-            //sourceImage: post.preview.images[0].source.url
+            id: post.id,
+            title: post.title,
+            thumbnail: post.thumbnail,
+            url: post.url,
+            numComments: post.num_comments,
+            sourceImage: post.preview.images[0].source.url
           };
         });
       })
@@ -38,24 +40,32 @@ class Posts extends Component {
       .then(posts => this.setState({ posts: posts }));
   }
 
-  // check extension and return jpg elements only
-  handleImage() {
-    return this.state.posts
-      .filter(post => {
-        if (post.url.match(/(jpg|jpeg|png)/)) return true; // place your actual check here
-      })
-      .map(image => {
-        return (
-          <div>
-            <ul><li>{image.url}</li></ul>
-          </div>
-        );
-      });
+  // handleclick to get to the next post
+  handleNextImage() {
+    var index = this.state.activeIndex + 1 < this.state.posts.length
+      ? this.state.activeIndex + 1
+      : 0;
+    this.setState({ activeIndex: index });
+    console.log(index);
   }
+
+  handlePrevImage() {
+    var index = this.state.activeIndex - 1 < 0 ? 0 : this.state.activeIndex - 1;
+    this.setState({ activeIndex: index });
+    console.log(index);
+  }
+
   render() {
+    var filteredPosts = this.state.posts.filter(post => {
+      if (post.url.match(/(jpg|jpeg|png)/)) return true;
+    });
+
     return (
       <div>
-        {this.handleImage()}
+        {filteredPosts.map(image => (
+          <Imagebox src={image.url} key={image.id} />
+        ))}
+        <button onClick={this.handleNextImage}>Next</button>
       </div>
     );
   }
