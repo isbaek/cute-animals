@@ -25,12 +25,12 @@ class Posts extends Component {
       .then(payload => {
         return payload.data.children.map(child => child.data).map(post => {
           return {
-            id: post.id,
-            title: post.title,
-            thumbnail: post.thumbnail,
-            url: post.url,
-            numComments: post.num_comments,
-            sourceImage: post.preview.images[0].source.url
+            //id: post.id,
+            //title: post.title,
+            //thumbnail: post.thumbnail,
+            url: post.url
+            //numComments: post.num_comments,
+            //sourceImage: post.preview.images[0].source.url
           };
         });
       })
@@ -38,38 +38,24 @@ class Posts extends Component {
       .then(posts => this.setState({ posts: posts }));
   }
 
-  // check extension
-  // todo: isolate the extension part
-  checkExt() {
-    var urls = this.state.posts.map(ext => <li>{ext.url}</li>);
-    var extensions = urls.map(e => (
-      <li>{e.split(".").pop().split(/\#|\?/)[0]}</li>
-    ));
-    return extensions;
+  // check extension and return jpg elements only
+  handleImage() {
+    return this.state.posts
+      .filter(post => {
+        if (post.url.match(/(jpg|jpeg|png)/)) return true; // place your actual check here
+      })
+      .map(image => {
+        return (
+          <div>
+            <ul><li>{image.url}</li></ul>
+          </div>
+        );
+      });
   }
-
   render() {
     return (
       <div>
-        <div>
-          <video preload="auto" autoPlay="autoplay" loop="loop">
-            <source
-              src="https://fat.gfycat.com/AnxiousForcefulJackrabbit.webm"
-              type="video/webm"
-            />
-          </video>
-        </div>
-        <ul>
-          {this.checkExt()}{" "}
-        </ul>
-        {this.state.posts.map(image => (
-          <Imagebox
-            width="500px"
-            height="900px"
-            key={image.id}
-            src={image.url}
-          />
-        ))}
+        {this.handleImage()}
       </div>
     );
   }
