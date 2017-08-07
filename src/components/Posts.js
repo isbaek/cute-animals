@@ -14,6 +14,7 @@ class Posts extends Component {
 
     // Fetch the data
     this.fetchPosts();
+    this.filteredPosts = this.filteredPosts.bind(this);
     this.handleNextImage = this.handleNextImage.bind(this);
     this.handlePrevImage = this.handlePrevImage.bind(this);
   }
@@ -40,6 +41,14 @@ class Posts extends Component {
       .then(posts => this.setState({ posts: posts }));
   }
 
+  filteredPosts() {
+    return this.state.posts.length > 0
+      ? this.state.posts.filter(post => {
+          if (post.url.match(/(jpg|jpeg|png)/)) return true;
+        })
+      : undefined;
+  }
+
   // handleclick to get to the next post
   handleNextImage() {
     var index = this.state.activeIndex + 1 < this.state.posts.length
@@ -56,23 +65,26 @@ class Posts extends Component {
   }
 
   render() {
-    var filteredPosts = this.state.posts.filter(post => {
-      if (post.url.match(/(jpg|jpeg|png)/)) return true;
-    });
+    var image = this.state.posts.length > 0 ? this.filteredPosts() : undefined;
 
     return (
       <div>
-        {filteredPosts.map(image => (
-          <Imagebox src={image.url} key={image.id} />
-        ))}
+        <Imagebox
+          src={
+            this.state.posts.length > 0
+              ? image[this.state.activeIndex].url
+              : undefined
+          }
+          key={
+            this.state.posts.length > 0
+              ? image[this.state.activeIndex].id
+              : undefined
+          }
+        />
         <button onClick={this.handleNextImage}>Next</button>
       </div>
     );
   }
-}
-
-propTypes: {
-  posts: React.PropTypes.array.isRequired;
 }
 
 export default Posts;
