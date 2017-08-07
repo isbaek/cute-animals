@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import Imagebox from "./Imagebox";
+import PostCall from "./PostCall";
 
 class Posts extends Component {
   constructor(props) {
@@ -12,31 +13,14 @@ class Posts extends Component {
       activeIndex: 0
     };
 
-    // Fetch the data
-    this.fetchPosts();
     this.filteredPosts = this.filteredPosts.bind(this);
     this.handleNextImage = this.handleNextImage.bind(this);
     this.handlePrevImage = this.handlePrevImage.bind(this);
   }
 
-  fetchPosts() {
-    // Do request
-    fetch("https://www.reddit.com/r/aww/top.json")
-      // Parse response as JSON
-      .then(res => res.json())
-      // Cleanup big JSON mess into posts
-      .then(payload => {
-        return payload.data.children.map(child => child.data).map(post => {
-          return {
-            id: post.id,
-            title: post.title,
-            thumbnail: post.thumbnail,
-            url: post.url,
-            numComments: post.num_comments,
-            sourceImage: post.preview.images[0].source.url
-          };
-        });
-      })
+  // do a fetch request once component mounts
+  componentDidMount() {
+    PostCall()
       // Save posts into state
       .then(posts => this.setState({ posts: posts }));
   }
