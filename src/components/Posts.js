@@ -12,10 +12,6 @@ class Posts extends Component {
       posts: [],
       activeIndex: 0
     };
-
-    this.filteredPosts = this.filteredPosts.bind(this);
-    this.handleNextImage = this.handleNextImage.bind(this);
-    this.handlePrevImage = this.handlePrevImage.bind(this);
   }
 
   // do a fetch request once component mounts
@@ -23,49 +19,51 @@ class Posts extends Component {
     PostCall()
       // Save posts into state
       .then(posts => this.setState({ posts: posts }));
+    this.filteredPosts();
   }
 
-  filteredPosts() {
-    return this.state.posts.length > 0
-      ? this.state.posts.filter(post => {
+  // since we only want to work with images, filter out posts that
+  // have different extensions
+  // only jpg, jpeg, png
+  filteredPosts = () => {
+    var posts = this.state.posts;
+    // handle rejections
+    return posts.length > 0
+      ? posts.filter(post => {
           if (post.url.match(/(jpg|jpeg|png)/)) return true;
         })
       : undefined;
-  }
+  };
 
   // handleclick to get to the next post
-  handleNextImage() {
-    var index = this.state.activeIndex + 1 < this.state.posts.length
+  handleNextImage = () => {
+    var filtered = this.filteredPosts();
+    var index = this.state.activeIndex + 1 < filtered.length
       ? this.state.activeIndex + 1
       : 0;
     this.setState({ activeIndex: index });
-    console.log(index);
-  }
+  };
 
-  handlePrevImage() {
+  handlePrevImage = () => {
+    var filtered = this.filteredPosts();
     var index = this.state.activeIndex - 1 < 0 ? 0 : this.state.activeIndex - 1;
     this.setState({ activeIndex: index });
-    console.log(index);
-  }
+  };
 
   render() {
-    var image = this.state.posts.length > 0 ? this.filteredPosts() : undefined;
+    var image = this.filteredPosts();
 
     return (
       <div>
-        <Imagebox
-          src={
-            this.state.posts.length > 0
-              ? image[this.state.activeIndex].url
-              : undefined
-          }
-          key={
-            this.state.posts.length > 0
-              ? image[this.state.activeIndex].id
-              : undefined
-          }
-        />
-        <button onClick={this.handleNextImage}>Next</button>
+        {this.state.posts.length > 0
+          ? <Imagebox
+              src={image[this.state.activeIndex].url}
+              key={image[this.state.activeIndex].id}
+            />
+          : undefined}
+        <button onClick={this.handleNextImage}>
+          Next
+        </button>
       </div>
     );
   }
