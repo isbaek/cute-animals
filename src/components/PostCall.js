@@ -1,10 +1,12 @@
 // make a fetch api request to the reddit subforums
+
 // will use top posts in 'aww' subreddit as example
+var url = "https://www.reddit.com/r/aww/top.json";
 
 export default function PostCall() {
   // do request
   return (
-    fetch("https://www.reddit.com/r/aww/top.json")
+    fetch(url)
       // Parse response as JSON
       .then(res => res.json())
       // Cleanup big JSON mess into posts
