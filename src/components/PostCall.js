@@ -9,6 +9,10 @@ export default function PostCall() {
     fetch(url)
       // Parse response as JSON
       .then(res => res.json())
+      // catch any errors
+      .catch(err => {
+        console.log("parsing failed", err);
+      })
       // Cleanup big JSON mess into posts
       .then(payload => {
         return payload.data.children.map(child => child.data).map(post => {
