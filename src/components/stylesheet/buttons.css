@@ -1,0 +1,16 @@
+button {
+  text-decoration: none;
+  border: none;
+  margin: 10px;
+  padding: 32px;
+  background-color: inherit;
+  transition: background-color 0.5s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: #424242;
+}
