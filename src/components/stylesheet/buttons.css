@@ -2,7 +2,7 @@ button {
   text-decoration: none;
   border: none;
   margin: 10px;
-  padding: 32px;
+  padding: 20px;
   background-color: inherit;
   transition: background-color 0.5s ease;
 }
@@ -14,3 +14,42 @@ button:focus {
 button:hover {
   background-color: #424242;
 }
+
+.next {
+  width: 64px;
+  height: 64px;
+}
+
+.prev {
+  width: 64px;
+  height: 64px;
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 479px){
+  button {
+    text-decoration: none;
+    border: none;
+    margin-left: -30px;
+    padding: 10px;
+    background-color: inherit;
+    transition: background-color 0.5s ease;
+  }
+  button:hover {
+    background-color: inherit;
+  }
+
+  .next {
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    bottom: 10px;
+  }
+
+  .prev {
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    bottom: 10px;
+  }
+ }

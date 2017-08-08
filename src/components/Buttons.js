@@ -6,12 +6,16 @@ import Prev from "react-icons/lib/md/arrow-back";
 
 export function NextButton(props) {
   return (
-    <button onClick={props.onClick}><Next size={50} color="white" /></button>
+    <button onClick={props.onClick}>
+      <Next className="next" color="white" />
+    </button>
   );
 }
 
 export function PrevButton(props) {
   return (
-    <button onClick={props.onClick}><Prev size={50} color="white" /></button>
+    <button onClick={props.onClick}>
+      <Prev className="prev" color="white" />
+    </button>
   );
 }
