@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Imagebox from "./Imagebox";
 import PostCall from "./PostCall";
+import ErrorPage from "./ErrorPage";
+import LoadingPage from "./LoadingPage";
 
 class Posts extends Component {
   constructor(props) {
@@ -10,7 +12,8 @@ class Posts extends Component {
     // Initial state
     this.state = {
       posts: [],
-      activeIndex: 0
+      activeIndex: 0,
+      isLoading: true
     };
   }
 
@@ -18,8 +21,7 @@ class Posts extends Component {
   componentDidMount() {
     PostCall()
       // Save posts into state
-      .then(posts => this.setState({ posts: posts }));
-    this.filteredPosts();
+      .then(posts => this.setState({ posts: posts, isLoading: false }));
   }
 
   // since we only want to work with images, filter out posts that
@@ -47,22 +49,30 @@ class Posts extends Component {
 
   handlePrevImage = () => {
     var filtered = this.filteredPosts();
-    // make sure it doesnt subtract beyond first image
+    // make sure it doesnt go backwards beyond first image
     var index = this.state.activeIndex - 1 < 0 ? 0 : this.state.activeIndex - 1;
     this.setState({ activeIndex: index });
   };
 
   render() {
+    var content;
     var image = this.filteredPosts();
 
-    return (
-      <div>
-        {this.state.posts.length > 0
-          ? <Imagebox
+    // if loading, display loader
+    this.state.isLoading
+      ? (content = <LoadingPage />)
+      : (content =
+          // else display imagebox
+          (
+            <Imagebox
               src={image[this.state.activeIndex].url}
               key={image[this.state.activeIndex].id}
             />
-          : undefined}
+          ));
+
+    return (
+      <div>
+        {content}
         <button onClick={this.handlePrevImage}>
           Previous
         </button>
