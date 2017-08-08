@@ -1,9 +1,9 @@
 import React from "react";
-import "./stylesheet/displayerror.css";
+import "./stylesheet/errorpage.css";
 
 const GhostIcon = require("../assets/ghost.png");
 
-export default function DisplayError() {
+export default function ErrorPage() {
   return (
     <div className="container">
       <img className="ghost-icon" src={GhostIcon} />
