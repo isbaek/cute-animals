@@ -1,5 +1,8 @@
+@import "./components/stylesheet/fonts/fonts.css";
+
 .App {
-  text-align: center;
+  width: 100%;
+  font-family: 'Museo Sans';
 }
 
 .App-logo {
