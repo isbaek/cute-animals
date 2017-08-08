@@ -1,0 +1,32 @@
+/* Museo sans-thin - latin */
+@font-face {
+  font-family: 'Museo Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./museosans-300-webfont.eot'); /* IE9 Compat Modes */
+  src: local('Museo Sans'), local('MuseoSans'),
+       url('./museosans-300-webfont.woff') format('woff'), /* Modern Browsers */
+       url('./museosans-300-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+
+/* Museo sans-regular - latin */
+@font-face {
+  font-family: 'Museo Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./museosans_500-webfont.eot'); /* IE9 Compat Modes */
+  src: local('Museo Sans'), local('MuseoSans'),
+       url('./museosans_500-webfont.woff') format('woff'), /* Modern Browsers */
+       url('./museosans_500-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+
+/* 700- latin */
+@font-face {
+  font-family: 'Museo Sans';
+  font-style: bold;
+  font-weight: 700;
+  src: url('./museosans_700-webfont.eot'); /* IE9 Compat Modes */
+  src: local('Museo Sans Semibold'), local('MuseoSans-Semibold'),
+       url('./museosans_700-webfont.woff') format('woff'), /* Modern Browsers */
+       url('./museosans_700-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+     }

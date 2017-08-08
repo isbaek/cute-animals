@@ -38,6 +38,7 @@ class Posts extends Component {
   // handleclick to get to the next post
   handleNextImage = () => {
     var filtered = this.filteredPosts();
+    // make sure it doesnt go over
     var index = this.state.activeIndex + 1 < filtered.length
       ? this.state.activeIndex + 1
       : 0;
@@ -46,6 +47,7 @@ class Posts extends Component {
 
   handlePrevImage = () => {
     var filtered = this.filteredPosts();
+    // make sure it doesnt subtract beyond first image
     var index = this.state.activeIndex - 1 < 0 ? 0 : this.state.activeIndex - 1;
     this.setState({ activeIndex: index });
   };
@@ -61,6 +63,9 @@ class Posts extends Component {
               key={image[this.state.activeIndex].id}
             />
           : undefined}
+        <button onClick={this.handlePrevImage}>
+          Previous
+        </button>
         <button onClick={this.handleNextImage}>
           Next
         </button>
