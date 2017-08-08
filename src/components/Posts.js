@@ -5,6 +5,9 @@ import PostCall from "./PostCall";
 import ErrorPage from "./ErrorPage";
 import LoadingPage from "./LoadingPage";
 
+// import button elements
+import { NextButton, PrevButton } from "./Buttons";
+
 class Posts extends Component {
   constructor(props) {
     super(props);
@@ -64,21 +67,19 @@ class Posts extends Component {
       : (content =
           // else display imagebox
           (
-            <Imagebox
-              src={image[this.state.activeIndex].url}
-              key={image[this.state.activeIndex].id}
-            />
+            <div className="container">
+              <PrevButton onClick={this.handlePrevImage} />
+              <Imagebox
+                src={image[this.state.activeIndex].url}
+                key={image[this.state.activeIndex].id}
+              />
+              <NextButton onClick={this.handleNextImage} />
+            </div>
           ));
 
     return (
       <div>
         {content}
-        <button onClick={this.handlePrevImage}>
-          Previous
-        </button>
-        <button onClick={this.handleNextImage}>
-          Next
-        </button>
       </div>
     );
   }
