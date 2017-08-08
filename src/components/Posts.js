@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import Imagebox from "./Imagebox";
 import PostCall from "./PostCall";
-import ErrorPage from "./ErrorPage";
 import LoadingPage from "./LoadingPage";
 
 // import button elements
