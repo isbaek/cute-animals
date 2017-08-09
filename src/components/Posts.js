@@ -52,8 +52,6 @@ class Posts extends Component {
   };
 
   render() {
-    var content;
-
     // if loading, display loader
     if (this.state.isLoading) {
       return <LoadingPage />;
