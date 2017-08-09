@@ -51,21 +51,23 @@ class Posts extends Component {
     this.setState({ activeIndex: index });
   };
 
+  activeImage = () => {
+    return this.filteredPosts()[this.state.activeIndex];
+  }
+
   render() {
     // if loading, display loader
     if (this.state.isLoading) {
       return <LoadingPage />;
     }
 
-    const images = this.filteredPosts();
-
     return (
       <div className="container">
         <PrevButton onClick={this.handlePrevImage} />
         <Imagebox
           onClick={this.handleNextImage}
-          src={images[this.state.activeIndex].url}
-          key={images[this.state.activeIndex].id}
+          src={this.activeImage().url}
+          key={this.activeImage().id}
         />
         <NextButton onClick={this.handleNextImage} />
       </div>
