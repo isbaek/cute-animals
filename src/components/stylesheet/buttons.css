@@ -13,6 +13,7 @@ button:focus {
 
 button:hover {
   background-color: #424242;
+  cursor: pointer;
 }
 
 .next {
