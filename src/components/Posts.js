@@ -65,6 +65,7 @@ class Posts extends Component {
       <div className="container">
         <PrevButton onClick={this.handlePrevImage} />
         <Imagebox
+          onClick={this.handleNextImage}
           src={images[this.state.activeIndex].url}
           key={images[this.state.activeIndex].id}
         />
