@@ -76,6 +76,8 @@ class Posts extends Component {
           src={this.activeImage().url}
           key={this.activeImage().id}
         />
+        <img style={{display: 'none'}} src={this.prevImage().url} />
+        <img style={{display: 'none'}} src={this.nextImage().url} />
         <NextButton onClick={this.handleNextImage} />
       </div>
     );
