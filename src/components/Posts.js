@@ -30,47 +30,43 @@ class Posts extends Component {
   // have different extensions
   // only jpg, jpeg, png
   filteredPosts = () => {
-    var posts = this.state.posts;
+    const posts = this.state.posts;
     // handle rejections
-    return posts.length > 0
-      ? posts.filter(post => {
-          if (post.url.match(/(jpg|jpeg|png)/)) return true;
-        })
-      : undefined;
+    return posts.filter(post => Boolean(post.url.match(/(jpg|jpeg|png)/)));
   };
 
   // handleclick to get to the next post
   handleNextImage = () => {
-    var filtered = this.filteredPosts();
-    // make sure it doesnt go over
-    var index = this.state.activeIndex + 1 < filtered.length
+    const filtered = this.filteredPosts();
+    // Loop back to beginning if we're going to "overflow"
+    const index = this.state.activeIndex + 1 < filtered.length
       ? this.state.activeIndex + 1
       : 0;
     this.setState({ activeIndex: index });
   };
 
   handlePrevImage = () => {
-    var filtered = this.filteredPosts();
     // make sure it doesnt go backwards beyond first image
-    var index = this.state.activeIndex - 1 < 0 ? 0 : this.state.activeIndex - 1;
+    const index = Math.max(this.state.activeIndex - 1, 0);
     this.setState({ activeIndex: index });
   };
 
   render() {
     var content;
-    var image = this.filteredPosts();
 
     // if loading, display loader
     if (this.state.isLoading) {
       return <LoadingPage />;
     }
 
+    const images = this.filteredPosts();
+
     return (
       <div className="container">
         <PrevButton onClick={this.handlePrevImage} />
         <Imagebox
-          src={image[this.state.activeIndex].url}
-          key={image[this.state.activeIndex].id}
+          src={images[this.state.activeIndex].url}
+          key={images[this.state.activeIndex].id}
         />
         <NextButton onClick={this.handleNextImage} />
       </div>
