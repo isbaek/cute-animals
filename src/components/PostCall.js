@@ -1,30 +1,30 @@
-// make a fetch api request to the reddit subforums
+// extracts and cleans up data
+function normalizePost(post) {
+  return {
+    id: post.id,
+    title: post.title,
+    thumbnail: post.thumbnail,
+    url: post.url || "",
+    numComments: post.num_comments,
+    sourceImage: post.preview.images[0].source.url
+  };
+}
 
-// will use top posts in 'aww' subreddit as example
-var url = "https://www.reddit.com/r/aww/top.json";
+// Fetch a subreddit's top post
+function fetchTopPosts(subreddit) {
+  return fetch(`https://www.reddit.com/r/${subreddit}/top.json`)
+    // Parse response as JSON
+    .then(res => res.json())
+    // Cleanup big JSON mess into posts
+    .then(payload => {
+      return payload.data.children.map(child => normalizePost(child.data));
+    })
+    // catch any errors
+    .catch(err => {
+      console.log("parsing failed", err);
+    });
+}
 
-export default function PostCall() {
-  // do request
-  return (
-    fetch(url)
-      // Parse response as JSON
-      .then(res => res.json())
-      // catch any errors
-      .catch(err => {
-        console.log("parsing failed", err);
-      })
-      // Cleanup big JSON mess into posts
-      .then(payload => {
-        return payload.data.children.map(child => child.data).map(post => {
-          return {
-            id: post.id,
-            title: post.title,
-            thumbnail: post.thumbnail,
-            url: post.url,
-            numComments: post.num_comments,
-            sourceImage: post.preview.images[0].source.url
-          };
-        });
-      })
-  );
+export default function fetchPosts() {
+  return fetchTopPosts("aww");
 }
