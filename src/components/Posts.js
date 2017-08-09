@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 import Imagebox from "./Imagebox";
-import PostCall from "./PostCall";
 import LoadingPage from "./LoadingPage";
+import fetchPosts from "../utils/fetchPosts";
 
 // import button elements
 import { NextButton, PrevButton } from "./Buttons";
@@ -21,7 +21,7 @@ class Posts extends Component {
 
   // do a fetch request once component mounts
   componentDidMount() {
-    PostCall()
+    fetchPosts()
       // Save posts into state
       .then(posts => this.setState({ posts: posts, isLoading: false }));
   }
@@ -61,24 +61,18 @@ class Posts extends Component {
     var image = this.filteredPosts();
 
     // if loading, display loader
-    this.state.isLoading
-      ? (content = <LoadingPage />)
-      : (content =
-          // else display imagebox
-          (
-            <div className="container">
-              <PrevButton onClick={this.handlePrevImage} />
-              <Imagebox
-                src={image[this.state.activeIndex].url}
-                key={image[this.state.activeIndex].id}
-              />
-              <NextButton onClick={this.handleNextImage} />
-            </div>
-          ));
+    if (this.state.isLoading) {
+      return <LoadingPage />;
+    }
 
     return (
-      <div>
-        {content}
+      <div className="container">
+        <PrevButton onClick={this.handlePrevImage} />
+        <Imagebox
+          src={image[this.state.activeIndex].url}
+          key={image[this.state.activeIndex].id}
+        />
+        <NextButton onClick={this.handleNextImage} />
       </div>
     );
   }
