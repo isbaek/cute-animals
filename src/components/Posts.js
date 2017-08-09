@@ -35,25 +35,32 @@ class Posts extends Component {
     return posts.filter(post => Boolean(post.url.match(/(jpg|jpeg|png)/)));
   };
 
+  prevIndex = () => {
+    return Math.max(this.state.activeIndex - 1, 0);
+  }
+
+  nextIndex = () => {
+    const index = this.state.activeIndex;
+    const max = this.filteredPosts().length;
+    // Loop back to beginning if we're going to "overflow"
+    if (index + 1 >= max) {
+      return 0;
+    }
+    return index + 1;
+  }
+
   // handleclick to get to the next post
   handleNextImage = () => {
-    const filtered = this.filteredPosts();
-    // Loop back to beginning if we're going to "overflow"
-    const index = this.state.activeIndex + 1 < filtered.length
-      ? this.state.activeIndex + 1
-      : 0;
-    this.setState({ activeIndex: index });
+    this.setState({ activeIndex: this.nextIndex() });
   };
-
   handlePrevImage = () => {
-    // make sure it doesnt go backwards beyond first image
-    const index = Math.max(this.state.activeIndex - 1, 0);
-    this.setState({ activeIndex: index });
+    this.setState({ activeIndex: this.prevIndex() });
   };
 
-  activeImage = () => {
-    return this.filteredPosts()[this.state.activeIndex];
-  }
+  // Image getters
+  activeImage = () => { return this.filteredPosts()[this.state.activeIndex];}
+  prevImage = () => { return this.filteredPosts()[this.prevIndex()]; }
+  nextImage = () => { return this.filteredPosts()[this.nextIndex()]; }
 
   render() {
     // if loading, display loader
