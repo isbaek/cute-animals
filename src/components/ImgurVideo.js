@@ -13,6 +13,7 @@ function cleanToMP4(url) {
 function attachCustomAttributes(domNode) {
   if (domNode) {
     domNode.setAttribute("webkit-playsinline", true);
+    domNode.setAttribute("playsinline", true);
   }
 }
 
