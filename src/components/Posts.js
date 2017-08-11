@@ -1,11 +1,30 @@
 import React, { Component } from "react";
 
 import Imagebox from "./Imagebox";
+import ImgurVideo from "./ImgurVideo";
 import LoadingPage from "./LoadingPage";
 import fetchPosts from "../utils/fetchPosts";
 
 // import button elements
 import { NextButton, PrevButton } from "./Buttons";
+
+// check static or gifv
+function isImage(url) {
+  return Boolean(url.match(/(jpg|jpeg|png)/));
+}
+
+function isGIFV(url) {
+  return Boolean(url.match(/(gifv)/));
+}
+
+function Post({ url, ...props }) {
+  if (isImage(url)) {
+    return <Imagebox src={url} {...props} />;
+  } else if (isGIFV(url)) {
+    return <ImgurVideo src={url} {...props} />;
+  }
+  return null;
+}
 
 class Posts extends Component {
   constructor(props) {
@@ -31,13 +50,13 @@ class Posts extends Component {
   // only jpg, jpeg, png
   filteredPosts = () => {
     const posts = this.state.posts;
-    // handle rejections
-    return posts.filter(post => Boolean(post.url.match(/(jpg|jpeg|png)/)));
+    //accepts image or gifv
+    return posts.filter(post => isImage(post.url) || isGIFV(post.url));
   };
 
   prevIndex = () => {
     return Math.max(this.state.activeIndex - 1, 0);
-  }
+  };
 
   nextIndex = () => {
     const index = this.state.activeIndex;
@@ -47,7 +66,7 @@ class Posts extends Component {
       return 0;
     }
     return index + 1;
-  }
+  };
 
   // handleclick to get to the next post
   handleNextImage = () => {
@@ -58,9 +77,15 @@ class Posts extends Component {
   };
 
   // Image getters
-  activeImage = () => { return this.filteredPosts()[this.state.activeIndex];}
-  prevImage = () => { return this.filteredPosts()[this.prevIndex()]; }
-  nextImage = () => { return this.filteredPosts()[this.nextIndex()]; }
+  activeImage = () => {
+    return this.filteredPosts()[this.state.activeIndex];
+  };
+  prevImage = () => {
+    return this.filteredPosts()[this.prevIndex()];
+  };
+  nextImage = () => {
+    return this.filteredPosts()[this.nextIndex()];
+  };
 
   render() {
     // if loading, display loader
@@ -71,13 +96,9 @@ class Posts extends Component {
     return (
       <div className="container">
         <PrevButton onClick={this.handlePrevImage} />
-        <Imagebox
-          onClick={this.handleNextImage}
-          src={this.activeImage().url}
-          key={this.activeImage().id}
-        />
-        <img style={{display: 'none'}} src={this.prevImage().url} />
-        <img style={{display: 'none'}} src={this.nextImage().url} />
+        <Post onClick={this.handleNextImage} url={this.activeImage().url} />
+        <img style={{ display: "none" }} src={this.prevImage().url} />
+        <img style={{ display: "none" }} src={this.nextImage().url} />
         <NextButton onClick={this.handleNextImage} />
       </div>
     );
